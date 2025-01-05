@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klaslijst Beheren</title>
+</head>
+<body>
+  <h1>Klaslijst Beheren</h1>
+  <form id="student-form">
+    <label for="students">Voer namen in (gescheiden door een puntkomma):</label>
+    <textarea id="students" required></textarea>
+    <button type="submit">Opslaan</button>
+  </form>
+
+  <script type="module">
+    import { db, ref, update } from "./firebase.js";
+
+    const form = document.getElementById("student-form");
+    const className = localStorage.getItem("selectedClass");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const students = document.getElementById("students").value.split(";");
+
+      const classRef = ref(db, `classes/${className}`);
+      update(classRef, { students });
+
+      alert("Klaslijst opgeslagen!");
+      window.location.href = "klas.html";
+    });
+  </script>
+</body>
+</html>

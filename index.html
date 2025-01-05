@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klas Inloggen</title>
+</head>
+<body>
+  <h1>Klas Inloggen</h1>
+  <form id="class-form">
+    <label for="class-name">Voer een klasnaam in:</label>
+    <input type="text" id="class-name" required />
+    <button type="submit">Ga verder</button>
+  </form>
+
+  <script type="module">
+    import { db, ref, get } from "./firebase.js";
+
+    const form = document.getElementById("class-form");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const className = document.getElementById("class-name").value;
+
+      const classRef = ref(db, `classes/${className}`);
+      const snapshot = await get(classRef);
+
+      if (snapshot.exists()) {
+        localStorage.setItem("selectedClass", className);
+        window.location.href = "import.html";
+      } else {
+        alert("Deze klas bestaat niet!");
+      }
+    });
+  </script>
+</body>
+</html>
