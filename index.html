@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Klas Inloggen</title>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
 </head>
 <body>
+    <script src="firebase.js"></script> 
   <h1>Klas Inloggen</h1>
   <form id="class-form">
     <label for="class-name">Voer een klasnaam in:</label>
@@ -14,7 +17,7 @@
   </form>
 
   <script type="module">
-    import { db, ref, get } from "./firebase.js";
+    import { db, ref, get } from "./firebase.js";t
 
     const form = document.getElementById("class-form");
 
