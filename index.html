@@ -4,33 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Klas Inloggen</title>
+  <!-- Firebase CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
+  <script src="firebase.js" defer></script> <!-- Laad je eigen Firebase-configuraties -->
 </head>
 <body>
-    <h1>Klas Inloggen</h1>
-    <script type="module" src="firebase.js"></script>
+  <h1>Klas Inloggen</h1>
   <form id="class-form">
     <label for="class-name">Voer een klasnaam in:</label>
     <input type="text" id="class-name" required />
     <button type="submit">Ga verder</button>
   </form>
 
-  <script type="module">
-    import { db, ref, get } from "./firebase.js";t
-
+  <script>
+    // Eventlistener voor het formulier
     const form = document.getElementById("class-form");
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const className = document.getElementById("class-name").value;
 
-      const classRef = ref(db, `classes/${className}`);
-      const snapshot = await get(classRef);
+      // Haal database-referentie op uit de globale `firebase` objecten
+      const database = firebase.database();
+      const classRef = database.ref(`classes/${className}`);
 
+      // Controleer of de klas bestaat
+      const snapshot = await classRef.get();
       if (snapshot.exists()) {
         localStorage.setItem("selectedClass", className);
-        window.location.href = "import.html";
+        window.location.href = "import.html"; // Redirect naar een andere pagina
       } else {
         alert("Deze klas bestaat niet!");
       }
