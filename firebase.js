@@ -14,7 +14,7 @@ const firebaseConfig = {
   const app = firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
   
-  // Fetch data
+  // Data ophalen
   const dbRef = database.ref('klassen');
   dbRef.get()
     .then((snapshot) => {
