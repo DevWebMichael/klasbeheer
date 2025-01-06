@@ -1,8 +1,6 @@
-// firebase.js
-
-// Import the necessary Firebase modules
+// Import necessary Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
 
 // Firebase configuration
 const firebaseConfig = {
