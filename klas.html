@@ -42,45 +42,57 @@
   <button id="edit">Bewerk lijst</button>
 
   <script type="module">
-    import { db, ref, get, update } from "./firebase.js";
+    import { database, ref, get } from "./firebase.js";
 
     const tbody = document.getElementById("student-list");
     const className = localStorage.getItem("selectedClass");
-    const classRef = ref(db, `classes/${className}`);
+
+    // Haal de database-referentie op voor de geselecteerde klas
+    const classRef = ref(database, `klassen/${className}`);
 
     async function loadStudents() {
-      const snapshot = await get(classRef);
-      const data = snapshot.val();
+      try {
+        const snapshot = await get(classRef);
+        const data = snapshot.val();
 
-      tbody.innerHTML = "";
-      data.students.forEach((name, index) => {
-        const row = document.createElement("tr");
-        const nameCell = document.createElement("td");
-        nameCell.textContent = name;
-        row.appendChild(nameCell);
+        if (data && data.students) {
+          tbody.innerHTML = "";
+          data.students.forEach((name) => {
+            const row = document.createElement("tr");
+            const nameCell = document.createElement("td");
+            nameCell.textContent = name;
+            row.appendChild(nameCell);
 
-        for (let i = 0; i < 8; i++) {
-          const cell = document.createElement("td");
-          cell.addEventListener("click", () => {
-            cell.classList.toggle("used");
+            // Maak de cellen voor de hoeken
+            for (let i = 0; i < 8; i++) {
+              const cell = document.createElement("td");
+              cell.addEventListener("click", () => {
+                cell.classList.toggle("used");
+              });
+              row.appendChild(cell);
+            }
+
+            tbody.appendChild(row);
           });
-          row.appendChild(cell);
         }
-
-        tbody.appendChild(row);
-      });
+      } catch (error) {
+        console.error("Fout bij het laden van de studenten:", error);
+      }
     }
 
+    // Reset de 'used' class van de cellen
     document.getElementById("reset").addEventListener("click", () => {
       document.querySelectorAll("td.used").forEach((cell) => {
         cell.classList.remove("used");
       });
     });
 
+    // Button voor het bewerken van de klaslijst
     document.getElementById("edit").addEventListener("click", () => {
       window.location.href = "pagina2.html";
     });
 
+    // Laad de studenten bij het laden van de pagina
     loadStudents();
   </script>
 </body>

@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Klaslijst Beheren</title>
+  <!-- Firebase CDN for modular imports -->
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
+  <script type="module" src="firebase.js" defer></script> <!-- Laad je eigen Firebase-configuraties -->
 </head>
 <body>
   <h1>Klaslijst Beheren</h1>
@@ -14,20 +18,30 @@
   </form>
 
   <script type="module">
-    import { db, ref, update } from "./firebase.js";
+    import { database, ref, update } from "./firebase.js";
 
     const form = document.getElementById("student-form");
     const className = localStorage.getItem("selectedClass");
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
+      
+      // Haal de studentnamen op en split ze door puntkomma's
       const students = document.getElementById("students").value.split(";");
 
-      const classRef = ref(db, `classes/${className}`);
-      update(classRef, { students });
+      // Haal de referentie van de geselecteerde klas in Firebase
+      const classRef = ref(database, `klassen/${className}`);
 
-      alert("Klaslijst opgeslagen!");
-      window.location.href = "klas.html";
+      // Werk de lijst van studenten bij
+      update(classRef, { students })
+        .then(() => {
+          alert("Klaslijst opgeslagen!");
+          window.location.href = "klas.html"; // Redirect naar de klaspagina
+        })
+        .catch((error) => {
+          console.error("Fout bij het opslaan van klaslijst:", error);
+          alert("Er is een fout opgetreden. Probeer het opnieuw.");
+        });
     });
   </script>
 </body>
