@@ -33,13 +33,29 @@
 </head>
 <body>
     <div class="container">
-        <h1>Login</h1>
+        <div class="logo-container">
+            <svg class="logo" viewBox="0 0 300 60">
+                <text x="0" y="40" fill="#56AFC9" font-size="40">#</text>
+                <text x="40" y="40" fill="#ffffff" font-size="40">Devwebmichael</text>
+            </svg>
+        </div>
+        <h1>Welkom bij Klasbeheer</h1>
         <form id="loginForm">
             <label for="classNumber">Klas:</label>
-            <input type="text" id="classNumber" required>
+            <input type="text" id="classNumber" required placeholder="Vul klas nummer in">
             <button type="submit">Login</button>
         </form>
     </div>
     <script type="module" src="main.js"></script>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                &copy; 2025 Devwebmichael. All rights reserved.
+            </div>
+            <div class="footer-right">
+                Version 0.7.4
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

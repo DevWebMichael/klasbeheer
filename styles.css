@@ -15,6 +15,11 @@
     --border-color: #333;
 }
 
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-dark);
@@ -25,10 +30,13 @@ body {
 }
 
 .container {
+    position: relative;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     background: var(--bg-darker);
     padding: 20px;
+    padding-top: 80px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
@@ -38,84 +46,70 @@ h1 {
     color: var(--text-light);
     margin-bottom: 30px;
     font-size: 2em;
+    word-wrap: break-word;
 }
 
-/* Form styles */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 20px;
+/* Logo styles */
+.logo-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    max-width: 100%;
+    padding: 0 10px;
 }
 
-label {
-    font-weight: 500;
-    color: var(--text-light);
+.logo {
+    height: 45px;
+    width: auto;
+    max-width: 100%;
 }
 
-input {
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
+.logo text {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 32px;
 }
 
-input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(86, 175, 201, 0.2);
-}
-
-/* Button styles */
-button {
-    padding: 12px 20px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: var(--primary-hover);
-}
-
-.button-group {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-/* Table styles */
+/* Table Container */
 .table-container {
     width: 100%;
-    overflow-x: auto;
+    overflow-y: auto;
     margin: 20px 0;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    position: relative; /* For sticky header */
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    max-height: 80vh;
 }
 
+/* Table Base Styles */
 table {
     width: 100%;
-    border-collapse: collapse;
+    min-width: 600px; /* Minimum width to ensure readability */
+    border-collapse: separate;
+    border-spacing: 0;
     background-color: var(--bg-darker);
     border: 1px solid var(--border-color);
 }
 
+/* Header Styles */
 thead {
     position: sticky;
     top: 0;
     z-index: 10;
     background-color: var(--bg-darker);
+}
+
+thead::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 5px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+    pointer-events: none;
 }
 
 th {
@@ -126,155 +120,173 @@ th {
     position: sticky;
     top: 0;
     z-index: 2;
-}
-
-/* First header cell (corner) */
-th:first-child {
-    z-index: 3;
-    position: sticky;
-    left: 0;
-}
-
-th, td {
-    padding: 15px;
+    padding: 15px 10px;
     text-align: center;
     border: 1px solid var(--border-color);
-    min-width: 40px;
 }
 
-/* Student name column */
+/* First Column (Student Names) */
 th:first-child, td:first-child {
     position: sticky;
     left: 0;
-    background-color: var(--bg-darker);
     z-index: 1;
     min-width: 120px;
+    max-width: 200px;
     text-align: left;
+    background-color: var(--bg-darker);
 }
 
-.corner-header {
-    padding: 8px 4px;
+th:first-child {
+    z-index: 20;
+    background-color: var(--primary-color);
+}
+
+/* Table Cell Styles */
+td {
+    padding: 15px 10px;
     text-align: center;
-    left: calc(50% - .5rem);
-    line-height: 1;
-    padding-top: .5rem;
-    position: relative;
-    text-orientation: sideways;
-    transform: rotate(180deg);
-    white-space: nowrap;
-    writing-mode: vertical-rl;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-darker);
 }
 
-.corner-text {
-    display: inline-block;
-    text-align: center;
-    line-height: 1.2;
-}
-
-tr:nth-child(even) {
+tr:nth-child(even) td {
     background-color: rgba(86, 175, 201, 0.1);
 }
 
-tr:hover {
+tr:nth-child(even) td:first-child {
+    background-color: rgba(86, 175, 201, 0.1);
+}
+
+tr:hover td {
     background-color: rgba(86, 175, 201, 0.2);
 }
 
-.play-corner {
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-align: center;
-    width: 40px;
-    height: 40px;
+tr:hover td:first-child {
+    background-color: rgba(86, 175, 201, 0.2);
+}
+
+/* Button group styles */
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.button-group button {
+    flex: 1;
+    min-width: 180px;
+    max-width: 250px;
+    margin: 5px;
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+form button {
+    margin-top: 10px;
+}
+
+input {
+    width: 100%;
     padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    height: 45px;
 }
 
-.active {
-    background-color: #4CAF50 !important;
+label {
+    font-weight: 500;
+    color: var(--text-light);
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+button {
+    background-color: var(--primary-color);
     color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
 }
 
-/* Student list styles */
-#studentsList {
-    margin: 20px 0;
+/* Footer styles */
+.footer {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--bg-darker);
+    color: var(--text-dim);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    width: 100%;
 }
 
-.student-item {
+.footer-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    margin: 10px 0;
-    background-color: var(--bg-dark);
-    border-radius: 5px;
-    transition: transform 0.2s;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 0.9em;
+    padding: 0 10px;
 }
 
-.student-item:hover {
-    transform: translateX(5px);
-    background-color: rgba(86, 175, 201, 0.1);
+.footer-left, .footer-right {
+    flex: 1;
 }
 
-.student-item button {
-    background-color: #dc3545;
-    padding: 8px 15px;
-    font-size: 14px;
+.footer-left {
+    text-align: left;
 }
 
-.student-item button:hover {
-    background-color: #c82333;
+.footer-right {
+    text-align: right;
 }
 
-/* Responsive design */
+/* Responsive Styles */
 @media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    h1 {
-        font-size: 1.5em;
-        margin-bottom: 20px;
-    }
-
-    input, button {
-        font-size: 14px;
+    body {
         padding: 10px;
     }
 
-    .table-container {
-        margin: 15px -15px;
-        width: calc(100% + 30px);
-        border-radius: 0;
+    .container {
+        padding: 15px;
+        padding-top: 80px;
     }
 
-    table {
-        font-size: 14px;
+    form {
+        padding: 0 10px;
     }
 
     th, td {
-        padding: 10px 5px;
-        font-size: 12px;
+        padding: 10px 8px;
+        font-size: 14px;
     }
 
-    th:first-child, td:first-child {
-        min-width: 100px;
-    }
-
-    .play-corner {
-        width: 35px;
-        height: 35px;
-        padding: 8px;
+    button {
+        width: 100%;
     }
 
     .button-group {
         flex-direction: column;
     }
-
-    .button-group button {
-        width: 100%;
-    }
 }
 
-/* For iPhone and very small screens */
+/* Mobile Styles */
 @media (max-width: 480px) {
     body {
         padding: 5px;
@@ -282,10 +294,21 @@ tr:hover {
 
     .container {
         padding: 10px 5px;
+        padding-top: 20px;
+        border-radius: 5px;
+    }
+
+    .logo-container {
+        position: relative;
+        top: 0;
+        left: 0;
+        text-align: center;
+        margin-bottom: 30px;
     }
 
     h1 {
         font-size: 1.2em;
+        margin: 10px 0 20px;
     }
 
     /* Rotate corner headers on mobile */
@@ -293,9 +316,6 @@ tr:hover {
         height: 120px;
         padding: 0;
         vertical-align: bottom;
-        position: sticky;
-        top: 0;
-        background-color: var(--primary-color);
     }
 
     th:not(:first-child) span {
@@ -306,60 +326,42 @@ tr:hover {
         white-space: nowrap;
     }
 
-    th:first-child {
-        vertical-align: bottom;
-        padding: 10px;
-        position: sticky;
-        top: 0;
-        left: 0;
-        z-index: 20; /* Higher z-index to stay on top */
-        background-color: var(--primary-color);
-    }
-
-    /* Add shadow to indicate stickiness */
-    thead::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -5px;
-        height: 5px;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
-        pointer-events: none;
-    }
-
     td {
         padding: 8px 4px;
         font-size: 11px;
     }
 
-    td:first-child {
-        position: sticky;
-        left: 0;
-        background-color: var(--bg-darker);
-        z-index: 1;
-    }
-
     th:first-child, td:first-child {
         min-width: 80px;
+        max-width: 120px;
         padding-left: 8px;
     }
 
-    .play-corner {
-        width: 30px;
-        height: 30px;
-        padding: 6px;
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
     }
 
-    /* Add visual indicator for scrollable table */
-    .table-container::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 5px;
-        background: linear-gradient(to left, rgba(86, 175, 201, 0.2), transparent);
-        pointer-events: none;
+    .footer-left, .footer-right {
+        text-align: center;
     }
+}
+
+/* Scrollbar Styling */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: var(--bg-darker);
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-corner {
+    background: var(--bg-darker);
 }
