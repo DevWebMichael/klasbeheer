@@ -23,17 +23,22 @@
     const form = document.getElementById("student-form");
     const className = localStorage.getItem("selectedClass");
 
+    // Log de geselecteerde klas om te debuggen
+    console.log("Geselecteerde klas:", className);
+
     // Check of een klas is geselecteerd
     if (!className) {
       alert("Geen klas geselecteerd. Ga terug naar de vorige pagina.");
       window.location.href = "index.html";
     }
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       // Haal de ingevoerde studentnamen op
       const studentsInput = document.getElementById("students").value;
+      console.log("Ingevoerde namen:", studentsInput);
+
       if (!studentsInput.trim()) {
         alert("Voer minstens één naam in.");
         return;
@@ -41,24 +46,27 @@
 
       // Splits de namen en formatteer als een object
       const studentsArray = studentsInput.split(";").map((name) => name.trim());
+      console.log("Opgesplitste namen:", studentsArray);
+
       const studentsObject = {};
       studentsArray.forEach((student, index) => {
         studentsObject[`student${index + 1}`] = student;
       });
+      console.log("Geformatteerde studentenlijst:", studentsObject);
 
       // Firebase-referentie voor de geselecteerde klas
       const classRef = ref(database, `klassen/${className}`);
+      console.log("Firebase-referentie:", classRef);
 
       // Update de studentenlijst in de database
-      update(classRef, { students: studentsObject })
-        .then(() => {
-          alert("Klaslijst succesvol opgeslagen!");
-          window.location.href = "klas.html";
-        })
-        .catch((error) => {
-          console.error("Fout bij het opslaan van klaslijst:", error);
-          alert("Er is een fout opgetreden. Probeer het opnieuw.");
-        });
+      try {
+        await update(classRef, { students: studentsObject });
+        alert("Klaslijst succesvol opgeslagen!");
+        window.location.href = "klas.html";
+      } catch (error) {
+        console.error("Fout bij het opslaan van klaslijst:", error);
+        alert("Er is een fout opgetreden. Probeer het opnieuw.");
+      }
     });
   </script>
 </body>
