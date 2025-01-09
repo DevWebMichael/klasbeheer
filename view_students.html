@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Login</title>
+    <title>View Students</title>
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -33,12 +33,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>Login</h1>
-        <form id="loginForm">
-            <label for="classNumber">Klas:</label>
-            <input type="text" id="classNumber" required>
-            <button type="submit">Login</button>
-        </form>
+        <h1>Current Students</h1>
+        <div id="studentsList">
+            <!-- Students will be listed here -->
+        </div>
+        <div class="button-group">
+            <button id="backButton">Back to Add Students</button>
+            <button id="classPageButton">Go to Class Page</button>
+        </div>
     </div>
     <script type="module" src="main.js"></script>
 </body>
