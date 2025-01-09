@@ -93,6 +93,21 @@ h1 {
     max-height: 80vh;
 }
 
+/* Table styles */
+td.play-corner {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+td.play-corner:hover {
+    background-color: rgba(86, 175, 201, 0.2);
+}
+
+td.play-corner.active {
+    background-color: #4CAF50 !important;
+    color: white;
+}
+
 /* Table Base Styles */
 table {
     width: 100%;
@@ -232,6 +247,225 @@ button {
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s ease;
+}
+
+/* Roster styles */
+.roster-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+}
+
+.roster-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+}
+
+.roster-table th,
+.roster-table td {
+    padding: 7px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.roster-table th {
+    background-color: #56AFC9;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+}
+
+.roster-table th:first-child {
+    border-top-left-radius: 8px;
+    width: 70%;
+}
+
+.roster-table th:last-child {
+    border-top-right-radius: 8px;
+    width: 30%;
+}
+
+.roster-table tr:last-child td:first-child {
+    border-bottom-left-radius: 8px;
+}
+
+.roster-table tr:last-child td:last-child {
+    border-bottom-right-radius: 8px;
+}
+
+.roster-table tr:last-child td {
+    border-bottom: none;
+}
+
+.roster-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.roster-table td:last-child {
+    text-align: right;
+}
+
+.roster-table button {
+    padding: 7px 14px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9em;
+}
+
+.roster-table button:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.roster-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.roster-table tr:nth-child(even):hover {
+    background-color: #e9ecef;
+}
+
+/* Empty state styling */
+.roster-table tr.empty-state td {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Students Grid Layout */
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.student-card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-left: 4px solid #56AFC9;
+}
+
+.student-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.student-avatar {
+    width: 40px;
+    height: 40px;
+    background: #56AFC9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 500;
+    font-size: 1.2em;
+}
+
+.student-name {
+    font-size: 1.1em;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.student-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.delete-button {
+    background: #fff;
+    color: #56AFC9;
+    border: 2px solid #56AFC9;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.delete-button:hover {
+    background: #56AFC9;
+    color: white;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 10px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Button styles */
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.primary-button, .secondary-button {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.primary-button {
+    background: #56AFC9;
+    color: white;
+    border: none;
+}
+
+.primary-button:hover {
+    background: #4598b2;
+    transform: translateY(-1px);
+}
+
+.secondary-button {
+    background: white;
+    color: #56AFC9;
+    border: 2px solid #56AFC9;
+}
+
+.secondary-button:hover {
+    background: #f8f9fa;
+    transform: translateY(-1px);
 }
 
 /* Footer styles */

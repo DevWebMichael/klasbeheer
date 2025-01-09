@@ -33,13 +33,19 @@
 </head>
 <body>
     <div class="container">
-        <h1>Current Students</h1>
-        <div id="studentsList">
+        <div class="logo-container">
+            <svg class="logo" viewBox="0 0 250 40" preserveAspectRatio="xMinYMid meet">
+                <text x="0" y="25" fill="#56AFC9" font-size="25">#</text>
+                <text x="30" y="25" fill="#ffffff" font-size="25">DevwebM</text>
+            </svg>
+        </div>
+        <h1>Leerlingen Overzicht</h1>
+        <div class="students-grid" id="studentsList">
             <!-- Students will be listed here -->
         </div>
         <div class="button-group">
-            <button id="backButton">Back to Add Students</button>
-            <button id="classPageButton">Go to Class Page</button>
+            <button id="backButton" class="secondary-button">Terug naar toevoegen</button>
+            <button id="classPageButton" class="primary-button">Ga naar klas pagina</button>
         </div>
     </div>
     <script type="module" src="main.js"></script>

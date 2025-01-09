@@ -115,15 +115,26 @@ if (document.getElementById('studentsList')) {
                 const studentId = childSnapshot.key;
                 const student = childSnapshot.val();
                 const div = document.createElement('div');
-                div.className = 'student-item';
+                div.className = 'student-card';
+                
+                // Get first letter of student name for avatar
+                const firstLetter = student.name.charAt(0).toUpperCase();
+                
                 div.innerHTML = `
-                    <span>${student.name}</span>
-                    <button onclick="deleteStudent('${studentId}')">Delete</button>
+                    <div class="student-info">
+                        <div class="student-avatar">${firstLetter}</div>
+                        <span class="student-name">${student.name}</span>
+                    </div>
+                    <div class="student-actions">
+                        <button class="delete-button" onclick="deleteStudent('${studentId}')">
+                            Pas klas aan
+                        </button>
+                    </div>
                 `;
                 studentsList.appendChild(div);
             });
         } else {
-            studentsList.innerHTML = '<p>No students added yet.</p>';
+            studentsList.innerHTML = '<div class="empty-state">Nog geen leerlingen toegevoegd.</div>';
         }
     });
 
