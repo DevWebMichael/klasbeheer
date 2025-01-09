@@ -101,6 +101,7 @@ button:hover {
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    position: relative; /* For sticky header */
 }
 
 table {
@@ -108,7 +109,30 @@ table {
     border-collapse: collapse;
     background-color: var(--bg-darker);
     border: 1px solid var(--border-color);
-    table-layout: fixed;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--bg-darker);
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+/* First header cell (corner) */
+th:first-child {
+    z-index: 3;
+    position: sticky;
+    left: 0;
 }
 
 th, td {
@@ -128,17 +152,6 @@ th:first-child, td:first-child {
     text-align: left;
 }
 
-/* Header styling */
-th {
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: 500;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    white-space: nowrap;
-}
-
 .corner-header {
     padding: 8px 4px;
     text-align: center;
@@ -150,11 +163,6 @@ th {
     transform: rotate(180deg);
     white-space: nowrap;
     writing-mode: vertical-rl;
-}
-
-/* First header cell (corner) */
-th:first-child {
-    z-index: 3;
 }
 
 .corner-text {
@@ -285,6 +293,9 @@ tr:hover {
         height: 120px;
         padding: 0;
         vertical-align: bottom;
+        position: sticky;
+        top: 0;
+        background-color: var(--primary-color);
     }
 
     th:not(:first-child) span {
@@ -298,11 +309,35 @@ tr:hover {
     th:first-child {
         vertical-align: bottom;
         padding: 10px;
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 20; /* Higher z-index to stay on top */
+        background-color: var(--primary-color);
+    }
+
+    /* Add shadow to indicate stickiness */
+    thead::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -5px;
+        height: 5px;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+        pointer-events: none;
     }
 
     td {
         padding: 8px 4px;
         font-size: 11px;
+    }
+
+    td:first-child {
+        position: sticky;
+        left: 0;
+        background-color: var(--bg-darker);
+        z-index: 1;
     }
 
     th:first-child, td:first-child {
