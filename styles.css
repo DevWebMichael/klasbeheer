@@ -81,7 +81,7 @@ h1 {
     }
 }
 
-/* Table Container */
+/* Table Container Styles */
 .table-container {
     width: 100%;
     overflow-y: auto;
@@ -159,6 +159,8 @@ th:first-child, td:first-child {
     max-width: 200px;
     text-align: left;
     background-color: var(--bg-darker);
+    white-space: nowrap; /* Prevent text from wrapping */
+    padding: 5px; /* Adjust padding as needed */
 }
 
 th:first-child {
@@ -193,279 +195,122 @@ tr:hover td:first-child {
 /* Button group styles */
 .button-group {
     display: flex;
-    gap: 15px;
     margin-top: 20px;
+    gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .button-group button {
+    border: none;
     flex: 1;
     min-width: 180px;
     max-width: 250px;
     margin: 5px;
-}
-
-/* Form styles */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-form button {
-    margin-top: 10px;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    height: 45px;
-}
-
-label {
-    font-weight: 500;
-    color: var(--text-light);
-    font-size: 16px;
-    margin-bottom: 5px;
-}
-
-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-}
-
-/* Roster styles */
-.roster-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    padding: 20px;
-}
-
-.roster-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: #fff;
-}
-
-.roster-table th,
-.roster-table td {
-    padding: 7px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-}
-
-.roster-table th {
-    background-color: #56AFC9;
-    color: white;
-    font-weight: 500;
-    text-transform: uppercase;
-    font-size: 0.9em;
-    letter-spacing: 0.5px;
-}
-
-.roster-table th:first-child {
-    border-top-left-radius: 8px;
-    width: 70%;
-}
-
-.roster-table th:last-child {
-    border-top-right-radius: 8px;
-    width: 30%;
-}
-
-.roster-table tr:last-child td:first-child {
-    border-bottom-left-radius: 8px;
-}
-
-.roster-table tr:last-child td:last-child {
-    border-bottom-right-radius: 8px;
-}
-
-.roster-table tr:last-child td {
-    border-bottom: none;
-}
-
-.roster-table tr:hover {
-    background-color: #f8f9fa;
-}
-
-.roster-table td:last-child {
-    text-align: right;
-}
-
-.roster-table button {
-    padding: 7px 14px;
-    background-color: #dc3545;
-    color: white;
-    border: none;
+    padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 0.9em;
+    font-weight: 500;
+    color: white;
 }
 
-.roster-table button:hover {
+#resetButton {
+    background-color: #dc3545;
+}
+
+#resetButton:hover {
     background-color: #c82333;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.roster-table tr:nth-child(even) {
-    background-color: #f8f9fa;
+#studentsButton {
+    background-color: #56AFC9;
 }
 
-.roster-table tr:nth-child(even):hover {
-    background-color: #e9ecef;
+#studentsButton:hover {
+    background-color: #4598b2;
 }
 
-/* Empty state styling */
-.roster-table tr.empty-state td {
-    text-align: center;
-    padding: 20px;
-    color: #6c757d;
-    font-style: italic;
+/* Responsive Styles */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+        padding-top: 80px;
+    }
+
+    th, td {
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
 }
 
-/* Students Grid Layout */
-.students-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+/* Mobile Styles */
+@media (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+
+    /* Rotate all headers on mobile */
+    th {
+        height: 120px;
+        padding: 0;
+        vertical-align: bottom;
+    }
+
+    th span {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        padding: 5px;
+        display: inline-block;
+        white-space: nowrap;
+    }
+
+    th, td {
+        min-width: 5px; /* Set a smaller minimum width for all columns */
+        max-width: 15px; /* Set a smaller maximum width for all columns */
+        padding: 5px; /* Adjust padding for better fit */
+    }
+
+    th:first-child, td:first-child {
+        max-width: 30px; /* Set the maximum width for the first column */
+        min-width: 30px; /* Set a minimum width to avoid collapsing */
+    }
+
+    th, td {
+        padding: 5px; /* Keep padding for better fit */
+    }
 }
 
-.student-card {
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-left: 4px solid #56AFC9;
+/* Scrollbar Styles */
+.table-container::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
 }
 
-.student-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.table-container::-webkit-scrollbar-track {
+    background: var(--bg-darker);
 }
 
-.student-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.table-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    border: 3px solid var(--bg-darker);
 }
 
-.student-avatar {
-    width: 40px;
-    height: 40px;
-    background: #56AFC9;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 500;
-    font-size: 1.2em;
-}
-
-.student-name {
-    font-size: 1.1em;
-    color: #2c3e50;
-    font-weight: 500;
-}
-
-.student-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.delete-button {
-    background: #fff;
-    color: #56AFC9;
-    border: 2px solid #56AFC9;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.delete-button:hover {
-    background: #56AFC9;
-    color: white;
-}
-
-.empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 40px;
-    background: white;
-    border-radius: 10px;
-    color: #6c757d;
-    font-style: italic;
-}
-
-/* Button styles */
-.button-group {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.primary-button, .secondary-button {
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.primary-button {
-    background: #56AFC9;
-    color: white;
-    border: none;
-}
-
-.primary-button:hover {
-    background: #4598b2;
-    transform: translateY(-1px);
-}
-
-.secondary-button {
-    background: white;
-    color: #56AFC9;
-    border: 2px solid #56AFC9;
-}
-
-.secondary-button:hover {
-    background: #f8f9fa;
-    transform: translateY(-1px);
+.table-container::-webkit-scrollbar-corner {
+    background: var(--bg-darker);
 }
 
 /* Footer styles */
@@ -499,113 +344,4 @@ button {
 
 .footer-right {
     text-align: right;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
-    .container {
-        padding: 15px;
-        padding-top: 80px;
-    }
-
-    form {
-        padding: 0 10px;
-    }
-
-    th, td {
-        padding: 10px 8px;
-        font-size: 14px;
-    }
-
-    button {
-        width: 100%;
-    }
-
-    .button-group {
-        flex-direction: column;
-    }
-}
-
-/* Mobile Styles */
-@media (max-width: 480px) {
-    body {
-        padding: 5px;
-    }
-
-    .container {
-        padding: 10px 5px;
-        padding-top: 20px;
-        border-radius: 5px;
-    }
-
-    .logo-container {
-        position: relative;
-        top: 0;
-        left: 0;
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    h1 {
-        font-size: 1.2em;
-        margin: 10px 0 20px;
-    }
-
-    /* Rotate corner headers on mobile */
-    th:not(:first-child) {
-        height: 120px;
-        padding: 0;
-        vertical-align: bottom;
-    }
-
-    th:not(:first-child) span {
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        padding: 5px;
-        display: inline-block;
-        white-space: nowrap;
-    }
-
-    td {
-        padding: 8px 4px;
-        font-size: 11px;
-    }
-
-    th:first-child, td:first-child {
-        min-width: 80px;
-        max-width: 120px;
-        padding-left: 8px;
-    }
-
-    .footer-content {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .footer-left, .footer-right {
-        text-align: center;
-    }
-}
-
-/* Scrollbar Styling */
-.table-container::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.table-container::-webkit-scrollbar-track {
-    background: var(--bg-darker);
-}
-
-.table-container::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 4px;
-}
-
-.table-container::-webkit-scrollbar-corner {
-    background: var(--bg-darker);
 }
