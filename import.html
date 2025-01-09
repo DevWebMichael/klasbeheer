@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Klaslijst Beheren</title>
-  <!-- Firebase CDN voor modular imports -->
-  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
-  <script type="module" src="firebase.js" defer></script> <!-- Laad je Firebase-configuraties -->
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Klaslijst Importeren</title>
+        <!-- Geen Firebase CDN-scripts hier -->
+        <script type="module" src="./firebase.js" defer></script> <!-- Firebase-configuraties -->
+        <script type="module" src="./import.js" defer></script> <!-- Logica voor de importpagina -->
+      </head>
 <body>
   <h1>Klaslijst Beheren</h1>
   <form id="student-form">
