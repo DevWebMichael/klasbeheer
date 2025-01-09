@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Klaslijst Beheren</title>
-  <!-- Firebase CDN for modular imports -->
+  <!-- Firebase CDN voor modular imports -->
   <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
-  <script type="module" src="firebase.js" defer></script> <!-- Laad je eigen Firebase-configuraties -->
+  <script type="module" src="firebase.js" defer></script> <!-- Laad je Firebase-configuraties -->
 </head>
 <body>
   <h1>Klaslijst Beheren</h1>
@@ -23,20 +23,37 @@
     const form = document.getElementById("student-form");
     const className = localStorage.getItem("selectedClass");
 
+    // Check of een klas is geselecteerd
+    if (!className) {
+      alert("Geen klas geselecteerd. Ga terug naar de vorige pagina.");
+      window.location.href = "index.html";
+    }
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      
-      // Haal de studentnamen op en split ze door puntkomma's
-      const students = document.getElementById("students").value.split(";");
 
-      // Haal de referentie van de geselecteerde klas in Firebase
+      // Haal de ingevoerde studentnamen op
+      const studentsInput = document.getElementById("students").value;
+      if (!studentsInput.trim()) {
+        alert("Voer minstens één naam in.");
+        return;
+      }
+
+      // Splits de namen en formatteer als een object
+      const studentsArray = studentsInput.split(";").map((name) => name.trim());
+      const studentsObject = {};
+      studentsArray.forEach((student, index) => {
+        studentsObject[`student${index + 1}`] = student;
+      });
+
+      // Firebase-referentie voor de geselecteerde klas
       const classRef = ref(database, `klassen/${className}`);
 
-      // Werk de lijst van studenten bij
-      update(classRef, { students })
+      // Update de studentenlijst in de database
+      update(classRef, { students: studentsObject })
         .then(() => {
-          alert("Klaslijst opgeslagen!");
-          window.location.href = "klas.html"; // Redirect naar de klaspagina
+          alert("Klaslijst succesvol opgeslagen!");
+          window.location.href = "klas.html";
         })
         .catch((error) => {
           console.error("Fout bij het opslaan van klaslijst:", error);
