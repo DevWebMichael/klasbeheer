@@ -163,14 +163,13 @@ if (document.getElementById('studentsTable')) {
         
         // Add student name header
         const nameHeader = document.createElement('th');
-        nameHeader.textContent = 'Student Name';
+        nameHeader.innerHTML = `<span>Student Name</span>`;
         headerRow.appendChild(nameHeader);
         
         // Add corner headers
         for (let i = 1; i <= 8; i++) {
             const th = document.createElement('th');
-            th.className = 'corner-header';
-            th.textContent = `Play Corner ${i}`;
+            th.innerHTML = `<span>Play Corner ${i}</span>`;
             headerRow.appendChild(th);
         }
     }

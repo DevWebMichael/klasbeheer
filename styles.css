@@ -136,7 +136,7 @@ th {
     position: sticky;
     top: 0;
     z-index: 2;
-    height: 140px;
+    white-space: nowrap;
 }
 
 .corner-header {
@@ -155,10 +155,6 @@ th {
 /* First header cell (corner) */
 th:first-child {
     z-index: 3;
-    height: auto;
-    writing-mode: horizontal-tb;
-    transform: none;
-    text-orientation: mixed;
 }
 
 .corner-text {
@@ -284,7 +280,27 @@ tr:hover {
         font-size: 1.2em;
     }
 
-    th, td {
+    /* Rotate corner headers on mobile */
+    th:not(:first-child) {
+        height: 120px;
+        padding: 0;
+        vertical-align: bottom;
+    }
+
+    th:not(:first-child) span {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        padding: 5px;
+        display: inline-block;
+        white-space: nowrap;
+    }
+
+    th:first-child {
+        vertical-align: bottom;
+        padding: 10px;
+    }
+
+    td {
         padding: 8px 4px;
         font-size: 11px;
     }
@@ -292,21 +308,6 @@ tr:hover {
     th:first-child, td:first-child {
         min-width: 80px;
         padding-left: 8px;
-    }
-
-    .corner-header {
-        height: 80px;
-        vertical-align: bottom;
-        padding: 4px 2px;
-    }
-
-    .corner-text {
-        writing-mode: vertical-lr;
-        transform: rotate(180deg);
-        white-space: nowrap;
-        height: 100%;
-        font-size: 10px;
-        line-height: 1;
     }
 
     .play-corner {
