@@ -156,6 +156,28 @@ if (document.getElementById('studentsTable')) {
     const classNumber = new URLSearchParams(window.location.search).get('class');
     const studentsRef = ref(window.database, 'klassen/' + classNumber + '/students');
 
+    // Function to create table headers
+    function createTableHeaders() {
+        const headerRow = document.querySelector('#studentsTable thead tr');
+        headerRow.innerHTML = ''; // Clear existing headers
+        
+        // Add student name header
+        const nameHeader = document.createElement('th');
+        nameHeader.textContent = 'Student Name';
+        headerRow.appendChild(nameHeader);
+        
+        // Add corner headers
+        for (let i = 1; i <= 8; i++) {
+            const th = document.createElement('th');
+            th.className = 'corner-header';
+            th.innerHTML = `<div class="corner-text">Play<br>Corner<br>${i}</div>`;
+            headerRow.appendChild(th);
+        }
+    }
+
+    // Create headers
+    createTableHeaders();
+
     // Function to create table row for a student
     function createStudentRow(studentId, studentData) {
         const row = document.createElement('tr');

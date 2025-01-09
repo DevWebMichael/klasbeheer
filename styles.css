@@ -133,10 +133,20 @@ th {
     background-color: var(--primary-color);
     color: white;
     font-weight: 500;
-    white-space: nowrap;
     position: sticky;
     top: 0;
     z-index: 2;
+}
+
+.corner-header {
+    padding: 8px 4px;
+    text-align: center;
+}
+
+.corner-text {
+    display: inline-block;
+    text-align: center;
+    line-height: 1.2;
 }
 
 /* First header cell (corner) */
@@ -269,6 +279,21 @@ tr:hover {
     th:first-child, td:first-child {
         min-width: 80px;
         padding-left: 8px;
+    }
+
+    .corner-header {
+        height: 80px;
+        vertical-align: bottom;
+        padding: 4px 2px;
+    }
+
+    .corner-text {
+        writing-mode: vertical-lr;
+        transform: rotate(180deg);
+        white-space: nowrap;
+        height: 100%;
+        font-size: 10px;
+        line-height: 1;
     }
 
     .play-corner {
