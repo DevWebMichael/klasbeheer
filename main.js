@@ -170,7 +170,7 @@ if (document.getElementById('studentsTable')) {
         for (let i = 1; i <= 8; i++) {
             const th = document.createElement('th');
             th.className = 'corner-header';
-            th.innerHTML = `<div class="corner-text">Play<br>Corner<br>${i}</div>`;
+            th.textContent = `Play Corner ${i}`;
             headerRow.appendChild(th);
         }
     }
