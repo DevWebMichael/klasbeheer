@@ -55,22 +55,18 @@ h1 {
     top: 20px;
     left: 20px;
     z-index: 100;
-    max-width: 100%;
+    max-width: 250px;
     padding: 0 10px;
 }
 
 .logo {
-    height: 45px;
-    width: auto;
-    max-width: 100%;
-    max-height: 45px; /* Added explicit max-height */
+    width: 100%;
+    height: auto;
 }
 
 .logo text {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
-    font-size: 32px;
-    dominant-baseline: middle; /* Added for better text alignment */
 }
 
 /* For Webkit browsers (Chrome, Brave, Safari) */
