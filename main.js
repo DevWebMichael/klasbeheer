@@ -127,7 +127,7 @@ if (document.getElementById('studentsList')) {
                     </div>
                     <div class="student-actions">
                         <button class="delete-button" onclick="deleteStudent('${studentId}')">
-                            Pas klas aan
+                            Delete
                         </button>
                     </div>
                 `;
@@ -174,7 +174,7 @@ if (document.getElementById('studentsTable')) {
         
         // Add student name header
         const nameHeader = document.createElement('th');
-        nameHeader.innerHTML = `<span>Student Name</span>`;
+        nameHeader.innerHTML = `<span class="name-header">Leerling</span>`;
         headerRow.appendChild(nameHeader);
         
         // Add corner headers

@@ -32,34 +32,34 @@
     </script>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-container">
-            <svg class="logo" viewBox="0 0 250 40" preserveAspectRatio="xMinYMid meet">
+    <div class="common-container">
+        <div class="common-logo-container">
+            <svg class="common-logo" viewBox="0 0 250 40" preserveAspectRatio="xMinYMid meet">
                 <text x="0" y="25" fill="#56AFC9" font-size="25">#</text>
                 <text x="30" y="25" fill="#ffffff" font-size="25">DevwebM</text>
             </svg>
         </div>
-        <h1>Voeg namen toe</h1>
-        <form id="addStudentForm">
+        <h1 class="add-students-title">Voeg namen toe</h1>
+        <form id="addStudentForm" class="add-students-form">
             <label for="studentName">Namen van leerlingen (gescheiden door ; [Vb : Jeroen;Danny]):</label>
             <input type="text" id="studentName" required placeholder="Jeroen;Danny;Michael">
-            <button type="submit">Voeg naam toe</button>
+            <button type="submit" class="add-students-button">Voeg naam toe</button>
         </form>
-        <div class="button-group">
-            <button id="viewStudentsButton">Pas klas aan</button>
-            <button id="submitStudents">Ga naar klas pagina</button>
+        <div class="add-students-button-group">
+            <button id="viewStudentsButton" class="add-students-secondary-button">Pas klas aan</button>
+            <button id="submitStudents" class="add-students-primary-button">Ga naar klas pagina</button>
         </div>
     </div>
-    <script type="module" src="main.js"></script>
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-left">
+    <footer class="common-footer">
+        <div class="common-footer-content">
+            <div class="common-footer-left">
                 &copy; 2025 Devwebmichael. All rights reserved.
             </div>
-            <div class="footer-right">
+            <div class="common-footer-right">
                 Version 0.7.4
             </div>
         </div>
     </footer>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

@@ -30,12 +30,16 @@ body {
 }
 
 .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
     position: relative;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     background: var(--bg-darker);
-    padding: 20px;
     padding-top: 80px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -44,7 +48,7 @@ body {
 h1 {
     text-align: center;
     color: var(--text-light);
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-size: 2em;
     word-wrap: break-word;
 }
@@ -111,7 +115,7 @@ td.play-corner.active {
 /* Table Base Styles */
 table {
     width: 100%;
-    min-width: 600px; /* Minimum width to ensure readability */
+    /*min-width: 600px; /* Minimum width to ensure readability */
     border-collapse: separate;
     border-spacing: 0;
     background-color: var(--bg-darker);
@@ -155,12 +159,15 @@ th:first-child, td:first-child {
     position: sticky;
     left: 0;
     z-index: 1;
-    min-width: 120px;
-    max-width: 200px;
+    min-width: auto; /* Zorg dat er geen vaste minimale breedte is */
+    max-width: 30%; /* Optioneel: Percentage gebaseerd maximum */
     text-align: left;
     background-color: var(--bg-darker);
     white-space: nowrap; /* Prevent text from wrapping */
     padding: 5px; /* Adjust padding as needed */
+    /*overflow: hidden; /* Verbergt overlopende inhoud */
+    /*text-overflow: ellipsis; /* Toon ellipses als tekst overloopt */
+
 }
 
 th:first-child {
@@ -192,9 +199,41 @@ tr:hover td:first-child {
     background-color: rgba(86, 175, 201, 0.2);
 }
 
+/* Button styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the button within the form */
+    width: 100%;
+    max-width: 300px; /* Ensure form doesn't exceed this width */
+}
+
+button {
+    width: auto; /* Allow button width to adjust based on content */
+    margin-top: 10px;
+    border: none;
+    flex: 1;
+    min-width: 180px;
+    max-width: 250px;
+    margin: 5px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    color: white;
+    background-color: #56AFC9; /* Default background color */
+}
+
+button:hover {
+    background-color: #4598b2; /* Darker blue on hover */
+}
+
 /* Button group styles */
 .button-group {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 20px;
     gap: 15px;
     flex-wrap: wrap;
@@ -224,11 +263,116 @@ tr:hover td:first-child {
 }
 
 #studentsButton {
-    background-color: #56AFC9;
+    background-color: #56AFC9; /* Blue background for 'Pas klas aan' button */
 }
 
 #studentsButton:hover {
+    background-color: #4598b2; /* Darker blue on hover */
+}
+
+#pasKlasAanButton {
+    background-color: #56AFC9; /* Blue background for 'Pas klas aan' button */
+}
+
+#pasKlasAanButton:hover {
+    background-color: #4598b2; /* Darker blue on hover */
+}
+
+input[type="text"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Common styles for all pages */
+.common-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 0 auto;
+    background: var(--bg-darker);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.common-logo-container {
+    margin-bottom: 20px;
+}
+
+.common-footer {
+    background-color: var(--bg-darker);
+    padding: 10px 0;
+    text-align: center;
+    color: var(--text-light);
+}
+
+/* Unique styles for add_students.html */
+.add-students-title {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.add-students-form {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-students-button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.add-students-button,
+.add-students-secondary-button,
+.add-students-primary-button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: #56AFC9;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-students-button:hover,
+.add-students-secondary-button:hover,
+.add-students-primary-button:hover {
     background-color: #4598b2;
+}
+
+@media (max-width: 768px) {
+    .common-container {
+        padding: 5px;
+    }
+
+    .add-students-form {
+        max-width: 100%;
+    }
+
+    .add-students-button-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .add-students-button,
+    .add-students-secondary-button,
+    .add-students-primary-button {
+        width: 100%;
+    }
 }
 
 /* Responsive Styles */
@@ -272,9 +416,19 @@ tr:hover td:first-child {
     th span {
         writing-mode: vertical-rl;
         transform: rotate(180deg);
+        /*padding: 5px;*/
+        display: inline-block;
+        white-space: nowrap;
+        line-height: 0;
+    }
+
+    th span.name-header {
         padding: 5px;
         display: inline-block;
         white-space: nowrap;
+        line-height: 3;
+        transform: initial;
+        writing-mode: unset;
     }
 
     th, td {
@@ -284,8 +438,8 @@ tr:hover td:first-child {
     }
 
     th:first-child, td:first-child {
-        max-width: 30px; /* Set the maximum width for the first column */
-        min-width: 30px; /* Set a minimum width to avoid collapsing */
+        min-width: 15px; /* Laat de eerste kolom zo klein mogelijk worden */
+        max-width: 25%; /* Optioneel: percentage voor consistentie */
     }
 
     th, td {
@@ -311,6 +465,91 @@ tr:hover td:first-child {
 
 .table-container::-webkit-scrollbar-corner {
     background: var(--bg-darker);
+}
+
+/* Student list styles */
+.student-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+}
+
+.student-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid rgb(86, 175, 201);
+}
+
+.student-card:hover {
+    transform: translateY(-2px);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 8px;
+}
+
+.student-name {
+    font-size: 1.1em;
+    color: #333;
+    font-weight: 500;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.9em;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+.student-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.student-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.student-item:hover {
+    background-color: #f1f1f1;
+}
+
+.student-name {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
 }
 
 /* Footer styles */
