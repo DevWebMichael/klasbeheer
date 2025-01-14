@@ -197,26 +197,51 @@ if (document.getElementById('studentsTable')) {
         }
     }
 
+    // Function to create table row for a student
+    function createStudentRow(studentId, studentData, corners) {
+        const row = document.createElement('tr');
+        const nameCell = document.createElement('td');
+        nameCell.textContent = studentData.name;
+        row.appendChild(nameCell);
+
+        for (const cornerId of Object.keys(corners)) {
+            const td = document.createElement('td');
+            td.className = 'play-corner';
+            td.dataset.corner = cornerId;
+            td.dataset.studentId = studentId;
+            if (studentData.activeCorners && studentData.activeCorners[cornerId]) {
+                td.classList.add('active');
+            }
+            td.addEventListener('click', async function() {
+                const isActive = td.classList.toggle('active');
+                const studentRef = ref(window.database, `klassen/${classNumber}/students/${studentId}`);
+                const updates = { [`activeCorners/${cornerId}`]: isActive };
+                isUpdating = true;
+                await update(studentRef, updates);
+                isUpdating = false;
+            });
+            row.appendChild(td);
+        }
+        return row;
+    }
+
     // Fetch and display students
     function displayStudents() {
         const studentsBody = document.getElementById('studentsBody');
-        let isUpdating = false;
+        const currentRows = {};
 
         onValue(studentsRef, (snapshot) => {
-            if (isUpdating) return; // Skip refresh if updating
-            const currentRows = {};
-            studentsBody.querySelectorAll('tr').forEach(row => {
-                const studentId = row.querySelector('td').dataset.studentId;
-                currentRows[studentId] = row;
-            });
-
             if (snapshot.exists()) {
                 const cornersRef = ref(window.database, `klassen/${classNumber}/Hoeken`);
                 get(cornersRef).then(cornersSnapshot => {
                     const corners = cornersSnapshot.exists() ? cornersSnapshot.val() : {};
+                    const studentIds = new Set();
+
                     snapshot.forEach(childSnapshot => {
                         const studentId = childSnapshot.key;
                         const studentData = childSnapshot.val();
+                        studentIds.add(studentId);
+
                         if (currentRows[studentId]) {
                             // Update existing row
                             const row = currentRows[studentId];
@@ -232,6 +257,15 @@ if (document.getElementById('studentsTable')) {
                             // Create new row
                             const row = createStudentRow(studentId, studentData, corners);
                             studentsBody.appendChild(row);
+                            currentRows[studentId] = row;
+                        }
+                    });
+
+                    // Remove rows for students no longer in the snapshot
+                    Object.keys(currentRows).forEach(studentId => {
+                        if (!studentIds.has(studentId)) {
+                            studentsBody.removeChild(currentRows[studentId]);
+                            delete currentRows[studentId];
                         }
                     });
                 });
@@ -239,33 +273,6 @@ if (document.getElementById('studentsTable')) {
                 studentsBody.innerHTML = '<tr><td colspan="100%">No students found.</td></tr>';
             }
         });
-
-        function createStudentRow(studentId, studentData, corners) {
-            const row = document.createElement('tr');
-            const nameCell = document.createElement('td');
-            nameCell.textContent = studentData.name;
-            row.appendChild(nameCell);
-
-            for (const cornerId of Object.keys(corners)) {
-                const td = document.createElement('td');
-                td.className = 'play-corner';
-                td.dataset.corner = cornerId;
-                td.dataset.studentId = studentId;
-                if (studentData.activeCorners && studentData.activeCorners[cornerId]) {
-                    td.classList.add('active');
-                }
-                td.addEventListener('click', async function() {
-                    const isActive = td.classList.toggle('active');
-                    const studentRef = ref(window.database, `klassen/${classNumber}/students/${studentId}`);
-                    const updates = { [`activeCorners/${cornerId}`]: isActive };
-                    isUpdating = true;
-                    await update(studentRef, updates);
-                    isUpdating = false;
-                });
-                row.appendChild(td);
-            }
-            return row;
-        }
     }
 
     // Initialize page
