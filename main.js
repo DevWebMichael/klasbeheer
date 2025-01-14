@@ -197,32 +197,6 @@ if (document.getElementById('studentsTable')) {
         }
     }
 
-    // Function to create table row for a student
-    function createStudentRow(studentId, studentData, corners) {
-        const row = document.createElement('tr');
-        const nameCell = document.createElement('td');
-        nameCell.textContent = studentData.name;
-        row.appendChild(nameCell);
-
-        for (const cornerId of Object.keys(corners)) {
-            const td = document.createElement('td');
-            td.className = 'play-corner';
-            td.dataset.corner = cornerId;
-            td.dataset.studentId = studentId;
-            if (studentData.activeCorners && studentData.activeCorners[cornerId]) {
-                td.classList.add('active');
-            }
-            td.addEventListener('click', async function() {
-                const isActive = td.classList.toggle('active');
-                const studentRef = ref(window.database, `klassen/${classNumber}/students/${studentId}`);
-                const updates = { [`activeCorners/${cornerId}`]: isActive };
-                await update(studentRef, updates);
-            });
-            row.appendChild(td);
-        }
-        return row;
-    }
-
     // Fetch and display students
     function displayStudents() {
         const studentsBody = document.getElementById('studentsBody');
@@ -265,6 +239,33 @@ if (document.getElementById('studentsTable')) {
                 studentsBody.innerHTML = '<tr><td colspan="100%">No students found.</td></tr>';
             }
         });
+
+        function createStudentRow(studentId, studentData, corners) {
+            const row = document.createElement('tr');
+            const nameCell = document.createElement('td');
+            nameCell.textContent = studentData.name;
+            row.appendChild(nameCell);
+
+            for (const cornerId of Object.keys(corners)) {
+                const td = document.createElement('td');
+                td.className = 'play-corner';
+                td.dataset.corner = cornerId;
+                td.dataset.studentId = studentId;
+                if (studentData.activeCorners && studentData.activeCorners[cornerId]) {
+                    td.classList.add('active');
+                }
+                td.addEventListener('click', async function() {
+                    const isActive = td.classList.toggle('active');
+                    const studentRef = ref(window.database, `klassen/${classNumber}/students/${studentId}`);
+                    const updates = { [`activeCorners/${cornerId}`]: isActive };
+                    isUpdating = true;
+                    await update(studentRef, updates);
+                    isUpdating = false;
+                });
+                row.appendChild(td);
+            }
+            return row;
+        }
     }
 
     // Initialize page
