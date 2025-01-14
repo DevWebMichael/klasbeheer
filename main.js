@@ -16,7 +16,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 window.database = getDatabase(app);
-console.log('Firebase initialized');
+console.log('Firebase initialized:', window.database);
 
 // Get a reference to the database
 console.log('Database reference created');
@@ -32,6 +32,7 @@ if (document.getElementById('loginForm')) {
         try {
             // Check if class exists and has students
             const studentsRef = ref(window.database, 'klassen/' + classNumber + '/students');
+            console.log('Fetching students from:', studentsRef.toString()); // Debugging log
             const snapshot = await get(studentsRef);
 
             if (snapshot.exists() && Object.keys(snapshot.val()).length > 0) {
@@ -67,6 +68,7 @@ if (document.getElementById('addStudentForm')) {
         
         try {
             const studentsRef = ref(window.database, 'klassen/' + classNumber + '/students');
+            console.log('Adding students to:', studentsRef.toString()); // Debugging log
             
             // Add each student to the database
             for (const studentName of studentNames) {
@@ -106,6 +108,7 @@ if (document.getElementById('studentsList')) {
 
     // Fetch and display students
     const studentsRef = ref(window.database, 'klassen/' + classNumber + '/students');
+    console.log('Fetching students from:', studentsRef.toString()); // Debugging log
     onValue(studentsRef, (snapshot) => {
         console.log('Database response:', snapshot.val());
         studentsList.innerHTML = ''; // Clear existing students
@@ -131,7 +134,12 @@ if (document.getElementById('studentsList')) {
                         </button>
                     </div>
                 `;
-                studentsList.appendChild(div);
+                if (div instanceof HTMLElement) {
+                    studentsList.appendChild(div);
+                    console.log('Appended student card:', div); // Debugging log
+                } else {
+                    console.error('Invalid node:', div); // Debugging log
+                }
             });
         } else {
             studentsList.innerHTML = '<div class="empty-state">Nog geen leerlingen toegevoegd.</div>';
@@ -142,6 +150,7 @@ if (document.getElementById('studentsList')) {
     window.deleteStudent = async function(studentId) {
         try {
             const studentRef = ref(window.database, `klassen/${classNumber}/students/${studentId}`);
+            console.log('Deleting student from:', studentRef.toString()); // Debugging log
             await remove(studentRef);
             console.log('Student deleted successfully');
         } catch (error) {
@@ -165,85 +174,112 @@ if (document.getElementById('studentsList')) {
 if (document.getElementById('studentsTable')) {
     console.log('Students table found');
     const classNumber = new URLSearchParams(window.location.search).get('class');
-    const studentsRef = ref(window.database, 'klassen/' + classNumber + '/students');
+    const studentsRef = ref(window.database, `klassen/${classNumber}/students`);
 
     // Function to create table headers
-    function createTableHeaders() {
+    async function createTableHeaders() {
         const headerRow = document.querySelector('#studentsTable thead tr');
-        headerRow.innerHTML = ''; // Clear existing headers
-        
-        // Add student name header
+        headerRow.innerHTML = '';
+        const cornersRef = ref(window.database, `klassen/${classNumber}/Hoeken`);
+        const cornersSnapshot = await get(cornersRef);
+        const corners = cornersSnapshot.exists() ? cornersSnapshot.val() : {};
+
         const nameHeader = document.createElement('th');
-        nameHeader.innerHTML = `<span class="name-header">Leerling</span>`;
+        nameHeader.textContent = 'Leerling';
         headerRow.appendChild(nameHeader);
-        
-        // Add corner headers
-        for (let i = 1; i <= 8; i++) {
+
+        for (const cornerName of Object.values(corners)) {
             const th = document.createElement('th');
-            th.innerHTML = `<span>Play Corner ${i}</span>`;
+            const span = document.createElement('span');
+            span.textContent = cornerName;
+            th.appendChild(span);
             headerRow.appendChild(th);
         }
     }
 
-    // Create headers
-    createTableHeaders();
-
     // Function to create table row for a student
-    function createStudentRow(studentId, studentData) {
+    function createStudentRow(studentId, studentData, corners) {
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${studentData.name}</td>`;
-        
-        // Add play corners (1-8)
-        for (let i = 1; i <= 8; i++) {
+        const nameCell = document.createElement('td');
+        nameCell.textContent = studentData.name;
+        row.appendChild(nameCell);
+
+        for (const cornerId of Object.keys(corners)) {
             const td = document.createElement('td');
             td.className = 'play-corner';
-            td.dataset.corner = i;
+            td.dataset.corner = cornerId;
             td.dataset.studentId = studentId;
-            
-            // Check if this corner is active for this student
-            if (studentData.activeCorners && studentData.activeCorners[i]) {
+            if (studentData.activeCorners && studentData.activeCorners[cornerId]) {
                 td.classList.add('active');
             }
-            
             td.addEventListener('click', async function() {
                 const isActive = td.classList.toggle('active');
-                
-                // Update the database with the new active status
                 const studentRef = ref(window.database, `klassen/${classNumber}/students/${studentId}`);
-                const updates = {
-                    [`activeCorners/${i}`]: isActive
-                };
-                
-                try {
-                    await update(studentRef, updates);
-                    console.log(`Updated corner ${i} status to ${isActive} for student ${studentId}`);
-                } catch (error) {
-                    console.error('Error updating corner status:', error);
-                    // Revert the visual change if the database update fails
-                    td.classList.toggle('active');
-                }
+                const updates = { [`activeCorners/${cornerId}`]: isActive };
+                isUpdating = true;
+                await update(studentRef, updates);
+                isUpdating = false;
             });
-            
             row.appendChild(td);
         }
         return row;
     }
 
-    // Listen for changes in the students data
-    onValue(studentsRef, (snapshot) => {
-        console.log('Database response:', snapshot.val());
+    // Fetch and display students
+    function displayStudents() {
         const studentsBody = document.getElementById('studentsBody');
-        studentsBody.innerHTML = ''; // Clear existing rows
-        
-        if (snapshot.exists()) {
-            snapshot.forEach((childSnapshot) => {
-                const studentId = childSnapshot.key;
-                const studentData = childSnapshot.val();
-                const row = createStudentRow(studentId, studentData);
-                studentsBody.appendChild(row);
-            });
+        let isUpdating = false;
+
+        onValue(studentsRef, (snapshot) => {
+            if (isUpdating) return; // Skip refresh if updating
+            studentsBody.innerHTML = '';
+            if (snapshot.exists()) {
+                const cornersRef = ref(window.database, `klassen/${classNumber}/Hoeken`);
+                get(cornersRef).then(cornersSnapshot => {
+                    const corners = cornersSnapshot.exists() ? cornersSnapshot.val() : {};
+                    snapshot.forEach(childSnapshot => {
+                        const studentId = childSnapshot.key;
+                        const studentData = childSnapshot.val();
+                        const row = createStudentRow(studentId, studentData, corners);
+                        studentsBody.appendChild(row);
+                    });
+                });
+            } else {
+                studentsBody.innerHTML = '<tr><td colspan="100%">No students found.</td></tr>';
+            }
+        });
+
+        function createStudentRow(studentId, studentData, corners) {
+            const row = document.createElement('tr');
+            const nameCell = document.createElement('td');
+            nameCell.textContent = studentData.name;
+            row.appendChild(nameCell);
+
+            for (const cornerId of Object.keys(corners)) {
+                const td = document.createElement('td');
+                td.className = 'play-corner';
+                td.dataset.corner = cornerId;
+                td.dataset.studentId = studentId;
+                if (studentData.activeCorners && studentData.activeCorners[cornerId]) {
+                    td.classList.add('active');
+                }
+                td.addEventListener('click', async function() {
+                    const isActive = td.classList.toggle('active');
+                    const studentRef = ref(window.database, `klassen/${classNumber}/students/${studentId}`);
+                    const updates = { [`activeCorners/${cornerId}`]: isActive };
+                    isUpdating = true;
+                    await update(studentRef, updates);
+                    isUpdating = false;
+                });
+                row.appendChild(td);
+            }
+            return row;
         }
-    });
+    }
+
+    // Initialize page
+    createTableHeaders();
+    displayStudents();
 
     // Reset button functionality
     document.getElementById('resetButton').addEventListener('click', async function() {

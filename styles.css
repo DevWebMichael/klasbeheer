@@ -94,7 +94,7 @@ h1 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     -webkit-overflow-scrolling: touch;
     position: relative;
-    max-height: 80vh;
+   
 }
 
 /* Table styles */
@@ -144,7 +144,6 @@ thead::after {
 th {
     background-color: var(--primary-color);
     color: white;
-    font-weight: 500;
     white-space: nowrap;
     position: sticky;
     top: 0;
@@ -152,6 +151,14 @@ th {
     padding: 15px 10px;
     text-align: center;
     border: 1px solid var(--border-color);
+}
+th span {
+    writing-mode: vertical-rl;  
+    transform: rotate(200deg);  
+    /*padding: 5px;*/
+    display: inline-block;  
+    white-space: nowrap;        
+    line-height: 0; /* Set the line height to match the height of the header */
 }
 
 /* First Column (Student Names) */
@@ -414,21 +421,21 @@ input[type="text"] {
     }
 
     th span {
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
+        writing-mode: vertical-rl;  
+        transform: rotate(180deg);  
         /*padding: 5px;*/
-        display: inline-block;
-        white-space: nowrap;
-        line-height: 0;
+        display: inline-block;  
+        white-space: nowrap;        
+        line-height: 0; /* Set the line height to match the height of the header */
     }
 
     th span.name-header {
-        padding: 5px;
-        display: inline-block;
-        white-space: nowrap;
-        line-height: 3;
-        transform: initial;
-        writing-mode: unset;
+        padding: 5px;   
+        display: inline-block;  
+        white-space: nowrap;    
+        line-height: 3; /* Set the line height to match the height of the header */
+        transform: initial; /* Reset rotation */
+        writing-mode: unset; /* Reset writing mode */
     }
 
     th, td {
