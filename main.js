@@ -30,19 +30,18 @@ if (document.getElementById('loginForm')) {
         console.log('Class number submitted:', classNumber);
 
         try {
-            // Check if class exists and has students
-            const studentsRef = ref(window.database, 'klassen/' + classNumber + '/students');
-            console.log('Fetching students from:', studentsRef.toString()); // Debugging log
-            const snapshot = await get(studentsRef);
+            // Check if class exists
+            const classRef = ref(window.database, 'klassen/' + classNumber);
+            const snapshot = await get(classRef);
 
-            if (snapshot.exists() && Object.keys(snapshot.val()).length > 0) {
-                // Class exists and has students, redirect to class page
-                console.log('Class has existing students, redirecting to class page');
+            if (snapshot.exists()) {
+                // Class exists, redirect to class page
+                console.log('Class exists, redirecting to class page');
                 window.location.href = 'class_page.html?class=' + classNumber;
             } else {
-                // Class doesn't exist or has no students, redirect to add students page
-                console.log('Class has no students, redirecting to add students page');
-                window.location.href = 'add_students.html?class=' + classNumber;
+                // Class doesn't exist, show error message
+                console.log('Class does not exist, cannot login');
+                alert('Helaas, vraag aan Femke meer info');
             }
         } catch (error) {
             console.error('Error checking class:', error);
