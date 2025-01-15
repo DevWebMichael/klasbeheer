@@ -216,7 +216,7 @@ if (document.getElementById('studentsTable')) {
                 const isActive = td.classList.toggle('active');
                 const studentRef = ref(window.database, `klassen/${classNumber}/students/${studentId}`);
                 const updates = { [`activeCorners/${cornerId}`]: isActive };
-                isUpdating = true;
+                let isUpdating = true;
                 await update(studentRef, updates);
                 isUpdating = false;
             });
